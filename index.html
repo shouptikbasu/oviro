@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability of getting CC-0 Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #ffffff; /* White background */
+        }
+
+        #output-container {
+            border: 1px solid black;
+            padding: 20px;
+            margin: 20px auto 50px; /* adjust margin to add space at the bottom */
+            max-width: 400px; /* adjust this value to your preference */
+            border-radius: 10px; /* Rounded corners */
+            background-color: #f0f0f0; /* Light gray background */
+        }
+
+        #cc0Calculator label,
+        #cc0Calculator select,
+        #cc0Calculator input {
+            margin-bottom: 10px; /* Add space between input elements and button */
+        }
+
+        .subheading {
+            font-size: 14px; /* Decrease font size */
+            margin-bottom: 10px; /* Add space below subheading */
+        }
+
+        #credentials {
+            margin-top: 30px; /* Adjusted margin to add more space */
+            font-size: 12px; /* Decrease font size */
+            color: gray; /* Change color to gray */
+        }
+
+        #cc0ProbabilityContainer {
+            margin-top: 20px; /* Add margin to separate from the button */
+        }
+
+        #cc0ProbabilityBar {
+            height: 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .red-bar {
+            background-color: #ff0000; /* Red color */
+        }
+
+        .yellow-bar {
+            background-color: #ffff00; /* Yellow color */
+        }
+
+        .green-bar {
+            background-color: #00ff00; /* Green color */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="output-container">
+        <h1> Ovi R0 Calculator</h1>
+        <p class="subheading">This application calculates the probability of achieving Complete Cytoreduction (CC-0 Score), Post Neoadjuvant Chemotherapy in Epithelial Ovarian Cancer patients who are being planned subsequently for Interval Cytoreductive Surgery and HIPEC.</p>
+        <p>(Note: HIPEC can be omitted if Complete Cytoreduction (CC-0) is not achieved)</p>
+        <p>Kindly insert the following data for the calculator</p>
+        <form id="cc0Calculator">
+            <label for="age">Age (in years): </label>
+            <input type="number" id="age" required><br>
+
+            <label for="ca125">Post NACT CA 125 value (U/mL): </label>
+            <input type="number" id="ca125" required><br>
+
+           <label for="comorbidity">Number of Co-morbidities: </label>
+            <select id="comorbidity" required>
+                <option value="0">None</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select><br>
+
+            <label for="pci">Peritoneal Carcinomatosis Index (PCI): </label>
+            <select id="pci" required>
+                <option value="0">Low (PCI &lt; 12)</option>
+                <option value="1">High (PCI &gt; 12)</option>
+            </select><br>
+
+            <button type="button" onclick="calculateCC0Probability()">Calculate Probability</button><br>
+
+            <div id="cc0ProbabilityContainer">
+                <label for="cc0Probability">Probability of CC-0 (%): </label>
+                <output id="cc0Probability"> </output><br>
+                <div id="cc0ProbabilityBar"></div>
+            </div>
+        </form>
+        
+        <div id="credentials">
+            &copy; Dr. Shouptik Basu
+        </div>
+    </div>
+
+    <script>
+        function calculateCC0Probability() {
+              const age = parseFloat(document.getElementById('age').value);
+              const ca125 = parseFloat(document.getElementById('ca125').value);
+              const comorbidity = parseFloat(document.getElementById('comorbidity').value);
+              const pci = parseFloat(document.getElementById('pci').value);
+  
+              const z = 6.51e-16 + age * 1.6 + ca125 * 1.03 + comorbidity * 22.1 + pci * 0.5;
+              const probability = (100 / (1 + (10 ^ (z))))*100;
+  
+              document.getElementById('cc0Probability').textContent = probability.toFixed(2);
+          }
+      </script>
+</body>
+
+</html>
